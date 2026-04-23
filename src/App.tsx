@@ -13,6 +13,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactProperty, setContactProperty] = useState<any>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
@@ -53,7 +54,12 @@ export default function App() {
       image: "https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/c9070952-37a3-41e4-bed6-847746be5b06_3840w.png?w=800&q=80",
       specs: "5 Bed • 7 Bath • 8,200 sqft",
       description: "A triumph of modern architecture, The Belvedere Arch command sweeping views of the canyons. Features an infinity-edge pool that appears to float above the city lights.",
-      features: ["Wine Cellar", "Infinity Pool", "Smart Home System", "Private Gallery"]
+      detailedDescription: "Designed as a series of interlocking volumes, The Belvedere Arch is a masterclass in structural expressionism. The interior features book-matched Italian marble, a 2,000-bottle temperature-controlled wine cellar, and a professional-grade wellness suite. The upper cantilevered wing houses the primary suite, offering a 270-degree view of the Los Angeles basin through museum-quality glass.",
+      features: ["Wine Cellar", "Infinity Pool", "Smart Home System", "Private Gallery", "Wellness Suite", "Custom Chef Kitchen"],
+      architect: "Renzo Piano Studio",
+      yearBuilt: 2023,
+      landArea: "1.2 Acres",
+      neighborhood: "Upper Bel-Air"
     },
     {
       id: 2,
@@ -63,7 +69,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2675&auto=format&fit=crop",
       specs: "7 Bed • 9 Bath • 12,000 sqft",
       description: "Steeped in history and luxury, Villa Azure embodies the timeless elegance of the French Riviera. A private path leads directly to the Mediterranean.",
-      features: ["Private Beach Access", "Historic Wine Cave", "Guest House", "Staff Quarters"]
+      features: ["Private Beach Access", "Historic Wine Cave", "Guest House", "Staff Quarters"],
+      architect: "Jean-Michel Wilmotte",
+      yearBuilt: 1928,
+      landArea: "2.5 Hectares",
+      neighborhood: "La Garoupe"
     },
     {
       id: 3,
@@ -73,7 +83,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2670&auto=format&fit=crop",
       specs: "6 Bed • 6.5 Bath • 9,500 sqft",
       description: "The ultimate mountain retreat. Oakhaven features floor-to-ceiling windows that perfectly frame the snow-capped peaks of Aspen.",
-      features: ["Ski-in/Ski-out", "Home Theater", "Heated Driveway", "Outdoor Spa"]
+      features: ["Ski-in/Ski-out", "Home Theater", "Heated Driveway", "Outdoor Spa"],
+      architect: "Charles Cunniffe Architects",
+      yearBuilt: 2021,
+      landArea: "0.8 Acres",
+      neighborhood: "Red Mountain"
     },
     {
       id: 4,
@@ -83,7 +97,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2670&auto=format&fit=crop",
       specs: "4 Bed • 5.5 Bath • 7,800 sqft",
       description: "An architectural masterpiece in the heart of Malibu. The Solstice Pavilion blends indoor and outdoor living seamlessly with its retracting glass walls.",
-      features: ["Ocean Front", "Panoramic Rooftop", "Zen Garden", "Private Chef's Kitchen"]
+      features: ["Ocean Front", "Panoramic Rooftop", "Zen Garden", "Private Chef's Kitchen"],
+      architect: "Richard Meier & Partners",
+      yearBuilt: 2024,
+      landArea: "0.5 Acres",
+      neighborhood: "Carbon Beach"
     },
     {
       id: 5,
@@ -93,7 +111,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop",
       specs: "6 Bed • 6 Bath • 8,900 sqft",
       description: "A minimalist sanctuary overlooking the turquoise waters of Ibiza. Designed for ultimate relaxation and entertaining.",
-      features: ["Nightclub Room", "Yoga Studio", "Outdoor Cinema", "Eco-Friendly Design"]
+      features: ["Nightclub Room", "Yoga Studio", "Outdoor Cinema", "Eco-Friendly Design"],
+      architect: "Fran Silvestre Arquitectos",
+      yearBuilt: 2022,
+      landArea: "4,000 sqm",
+      neighborhood: "Es Cubells"
     },
     {
       id: 6,
@@ -103,7 +125,12 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1628624747186-a941c476b7ef?q=80&w=2670&auto=format&fit=crop",
       specs: "4 Bed • 5 Bath • 6,200 sqft",
       description: "Floating above Central Park, this penthouse offers the most exclusive perspective of the Manhattan skyline.",
-      features: ["Private Elevator", "360-degree Views", "Butler Service", "Library"]
+      detailedDescription: "Occupying the entire 92nd floor, The Zenith Penthouse defines vertical luxury. The residence features 14-foot ceilings throughout, with a private ballroom and a custom-designed library of rare hardwoods. The 3,000-square-foot wraparound terrace includes an outdoor lounge and the highest private water feature in the city.",
+      features: ["Private Elevator", "360-degree Views", "Butler Service", "Library", "Ballroom", "Wraparound Terrace"],
+      architect: "Foster + Partners",
+      yearBuilt: 2020,
+      landArea: "N/A (Billionaire's Row)",
+      neighborhood: "Midtown Manhattan"
     },
     {
       id: 7,
@@ -113,7 +140,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=2670&auto=format&fit=crop",
       specs: "9 Bed • 11 Bath • 18,500 sqft",
       description: "A grand neoclassical villa restored to its former glory. The Elysium Manor is a beacon of Italian heritage and luxury.",
-      features: ["Private Boat Dock", "Heliport", "Botanical Garden", "Ballroom"]
+      features: ["Private Boat Dock", "Heliport", "Botanical Garden", "Ballroom"],
+      architect: "Piero Lissoni (Renovation)",
+      yearBuilt: 1845,
+      landArea: "4.5 Hectares",
+      neighborhood: "Bellagio"
     },
     {
       id: 8,
@@ -123,7 +154,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=2670&auto=format&fit=crop",
       specs: "5 Bed • 6 Bath • 10,200 sqft",
       description: "A transparent marvel on the waterfront. Every room in The Glass House offers uninterrupted views of the Atlantic Ocean.",
-      features: ["Underwater Viewing Room", "Private Island", "Gym", "Auto-Gallery"]
+      features: ["Underwater Viewing Room", "Private Island", "Gym", "Auto-Gallery"],
+      architect: "Kobi Karp",
+      yearBuilt: 2023,
+      landArea: "0.4 Acres",
+      neighborhood: "Star Island"
     },
     {
       id: 9,
@@ -133,7 +168,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=2670&auto=format&fit=crop",
       specs: "8 Bed • 8.5 Bath • 15,000 sqft",
       description: "A massive timber and stone chalet in the most exclusive Swiss village. Offers absolute privacy and cozy luxury.",
-      features: ["Full Spa Center", "Indoor Pool", "Bowling Alley", "Professional Kitchen"]
+      features: ["Full Spa Center", "Indoor Pool", "Bowling Alley", "Professional Kitchen"],
+      architect: "Local Master Craftsmen",
+      yearBuilt: 2019,
+      landArea: "1.5 Hectares",
+      neighborhood: "Oberbort"
     },
     {
       id: 10,
@@ -143,7 +182,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2670&auto=format&fit=crop",
       specs: "3 Bed • 4 Bath • 3,200 sqft",
       description: "Perched on the edge of the caldera, this property offers the world's most famous sunset views from every window.",
-      features: ["Infinity Dip Pool", "Traditional Cave Style", "Rooftop Terrace", "Bespoke Furnishing"]
+      features: ["Infinity Dip Pool", "Traditional Cave Style", "Rooftop Terrace", "Bespoke Furnishing"],
+      architect: "Kapsimalis Architects",
+      yearBuilt: 2020,
+      landArea: "450 sqm",
+      neighborhood: "Caldera Edge"
     },
     {
       id: 11,
@@ -153,7 +196,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=2670&auto=format&fit=crop",
       specs: "6 Bed • 7 Bath • 11,400 sqft",
       description: "A modern fortress of wood, metal, and glass. Ironwood Ridge is designed to celebrate the rugged beauty of the Pacific Northwest.",
-      features: ["Sustainability Focus", "Art Studio", "Waterfall Entrance", "Guest Wing"]
+      features: ["Sustainability Focus", "Art Studio", "Waterfall Entrance", "Guest Wing"],
+      architect: "Patkau Architects",
+      yearBuilt: 2021,
+      landArea: "2.1 Acres",
+      neighborhood: "West Vancouver"
     },
     {
       id: 12,
@@ -163,7 +210,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?q=80&w=2670&auto=format&fit=crop",
       specs: "5 Bed • 5 Bath • 6,800 sqft",
       description: "A serene architectural homage to Japanese minimalism. Features an authentic stone garden and meditation chambers.",
-      features: ["Tea Ceremony Room", "Onsen-style Bath", "Zan Garden", "Cherry Blossom Park"]
+      features: ["Tea Ceremony Room", "Onsen-style Bath", "Zan Garden", "Cherry Blossom Park"],
+      architect: "Kengo Kuma & Associates",
+      yearBuilt: 2023,
+      landArea: "1,200 sqm",
+      neighborhood: "Higashiyama"
     },
     {
       id: 13,
@@ -173,7 +224,11 @@ export default function App() {
       image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
       specs: "10 Bed • 12 Bath • 22,000 sqft",
       description: "The crown jewel of The Hamptons. This massive estate offers unparalleled scale and classic coastal elegance.",
-      features: ["Tennis Court", "Olympic Pool", "Orchard", "Media Wing"]
+      features: ["Tennis Court", "Olympic Pool", "Orchard", "Media Wing"],
+      architect: "Robert A.M. Stern Architects",
+      yearBuilt: 2022,
+      landArea: "4.2 Acres",
+      neighborhood: "Southampton"
     }
   ];
 
@@ -593,7 +648,7 @@ export default function App() {
                   exit={{ opacity: 0 }}
                   className="fixed inset-0 z-[100] flex items-center justify-center px-4"
                 >
-                  <div className="absolute inset-0 bg-stone-900/90 backdrop-blur-sm" onClick={() => setContactOpen(false)} />
+                  <div className="absolute inset-0 bg-stone-900/90 backdrop-blur-sm" onClick={() => { setContactOpen(false); setContactProperty(null); }} />
                   <motion.div 
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -601,7 +656,7 @@ export default function App() {
                     className="relative bg-white max-w-4xl w-full p-8 md:p-16 border border-stone-200 shadow-2xl overflow-hidden"
                   >
                     <button 
-                      onClick={() => setContactOpen(false)}
+                      onClick={() => { setContactOpen(false); setContactProperty(null); }}
                       className="absolute top-6 right-6 p-2 hover:bg-stone-100 rounded-full transition-colors"
                     >
                       <X size={24} />
@@ -610,9 +665,22 @@ export default function App() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                       <div>
                         <h2 className="text-4xl font-serif text-stone-900 mb-8 lowercase italic">get in <br />touch</h2>
-                        <p className="text-stone-500 text-sm leading-relaxed mb-12">
-                          Our private advisory team is available 24/7 for our registered portfolio holders. Please select your regional directory for direct access.
-                        </p>
+                        {contactProperty ? (
+                          <div className="mb-8 p-6 bg-stone-50 border border-stone-100">
+                            <p className="text-[10px] font-bold tracking-widest text-gold-500 uppercase mb-2">Inquiring About</p>
+                            <h3 className="text-xl font-serif text-stone-900 mb-1">{contactProperty.name}</h3>
+                            <p className="text-stone-500 text-sm mb-4">{contactProperty.location} • {contactProperty.price}</p>
+                            <textarea 
+                              className="w-full bg-white border border-stone-200 p-3 text-sm focus:outline-none focus:border-gold-500 transition-colors resize-none placeholder:text-stone-300"
+                              rows={4}
+                              placeholder="Add any specific questions or preferred times to tour..."
+                            ></textarea>
+                          </div>
+                        ) : (
+                          <p className="text-stone-500 text-sm leading-relaxed mb-12">
+                            Our private advisory team is available 24/7 for our registered portfolio holders. Please select your regional directory for direct access.
+                          </p>
+                        )}
                         
                         <div className="space-y-8">
                           <div>
@@ -693,10 +761,37 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="mb-8">
+                      <div className="mb-8 overflow-y-auto">
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-8">
+                          {selectedProperty.architect && (
+                            <div>
+                              <p className="text-[10px] uppercase tracking-widest font-bold text-stone-400 mb-1 italic">Architect</p>
+                              <p className="text-stone-900 text-sm font-medium">{selectedProperty.architect}</p>
+                            </div>
+                          )}
+                          {selectedProperty.yearBuilt && (
+                            <div>
+                              <p className="text-[10px] uppercase tracking-widest font-bold text-stone-400 mb-1 italic">Year Built</p>
+                              <p className="text-stone-900 text-sm font-medium">{selectedProperty.yearBuilt}</p>
+                            </div>
+                          )}
+                          {selectedProperty.landArea && (
+                            <div>
+                              <p className="text-[10px] uppercase tracking-widest font-bold text-stone-400 mb-1 italic">Land Area</p>
+                              <p className="text-stone-900 text-sm font-medium">{selectedProperty.landArea}</p>
+                            </div>
+                          )}
+                          {selectedProperty.neighborhood && (
+                            <div>
+                              <p className="text-[10px] uppercase tracking-widest font-bold text-stone-400 mb-1 italic">Neighborhood</p>
+                              <p className="text-stone-900 text-sm font-medium">{selectedProperty.neighborhood}</p>
+                            </div>
+                          )}
+                        </div>
+
                         <h4 className="text-[10px] uppercase tracking-widest font-bold text-stone-900 mb-3 italic">Overview</h4>
                         <p className="text-stone-500 text-sm leading-relaxed mb-6 italic">
-                          {selectedProperty.description}
+                          {selectedProperty.detailedDescription || selectedProperty.description}
                         </p>
                       </div>
 
@@ -741,9 +836,10 @@ export default function App() {
           {/* Hero Section */}
           <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
             {/* Background Image */}
-            <div className="absolute inset-0 z-0">
-              <div className="absolute inset-0 bg-stone-900/30 self-blend-multiply z-10" />
-              <div className="absolute inset-0 bg-gradient-to-b from-stone-900/50 via-transparent to-stone-50 z-10" />
+            <div className="absolute inset-0 z-0 bg-stone-950">
+              <div className="absolute inset-0 bg-stone-900/40 mix-blend-multiply z-10" />
+              <div className="absolute inset-0 bg-gradient-to-b from-stone-900/70 via-transparent to-stone-50 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent md:bg-none z-10" />
               <motion.img 
                 style={{ y: heroY }}
                 initial={{ scale: 1.1 }}
@@ -751,7 +847,7 @@ export default function App() {
                 transition={{ duration: 1.5, ease: 'easeOut' }}
                 src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2675&auto=format&fit=crop" 
                 alt="Luxury Architecture"
-                className="w-full h-[120%] object-cover origin-top"
+                className="w-full h-[120%] object-cover object-[65%_center] sm:object-center origin-top opacity-90"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -809,12 +905,90 @@ export default function App() {
             </motion.p>
           </section>
 
-          {/* Featured Properties */}
+          {/* New Featured Properties Section */}
+          <section className="py-24 bg-white border-y border-stone-200">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="text-center mb-20">
+                <span className="text-gold-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-4 block italic">Signature Listings</span>
+                <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-6">Featured <span className="italic font-light">Properties</span></h2>
+                <p className="text-stone-500 max-w-2xl mx-auto">A handpicked selection of our most extraordinary luxury estates, showcasing unparalleled design and exclusivity.</p>
+              </div>
+
+              <div className="space-y-32">
+                {properties.slice(0, 3).map((property, idx) => (
+                  <div key={property.id} className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${idx % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                    <motion.div 
+                      initial={{ opacity: 0, x: idx % 2 === 1 ? 30 : -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="w-full lg:w-1/2"
+                    >
+                      <div className="aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={() => setSelectedProperty(property)}>
+                        <img 
+                          src={property.image} 
+                          alt={property.name} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="absolute inset-0 bg-stone-900/10 group-hover:bg-transparent transition-colors duration-500" />
+                      </div>
+                    </motion.div>
+
+                    <motion.div 
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                      className="w-full lg:w-1/2 flex flex-col justify-center"
+                    >
+                      <div className="flex items-center gap-2 text-gold-500 text-[10px] font-bold tracking-widest uppercase mb-4">
+                        <MapPin size={14} />
+                        <span>{property.location}</span>
+                      </div>
+                      <h3 className="text-3xl lg:text-4xl font-serif text-stone-900 mb-4">{property.name}</h3>
+                      <p className="text-xl font-medium text-stone-800 mb-6">{property.price}</p>
+                      <p className="text-stone-500 leading-relaxed mb-8 max-w-md">
+                        {property.description}
+                      </p>
+                      
+                      <div className="grid grid-cols-2 gap-4 mb-10 pb-10 border-b border-stone-200">
+                        {property.features?.slice(0, 4).map((feature, i) => (
+                           <div key={i} className="flex items-center gap-2">
+                             <div className="w-1 h-1 bg-stone-300 rounded-full" />
+                             <span className="text-xs text-stone-600 font-medium tracking-wide">{feature}</span>
+                           </div>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center gap-6">
+                        <button 
+                          onClick={() => setSelectedProperty(property)}
+                          className="flex items-center gap-3 text-xs font-bold tracking-[0.2em] uppercase transition-colors group hover:text-gold-500 w-fit"
+                        >
+                          <span className="border-b border-stone-900 group-hover:border-gold-500 pb-1 transition-colors">View Details</span>
+                          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </button>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setContactProperty(property); setContactOpen(true); }}
+                          className="px-6 py-3 bg-stone-900 text-white text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-gold-500 transition-colors"
+                        >
+                          Contact Agent
+                        </button>
+                      </div>
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Global Collection */}
           <section className="py-20 px-6 max-w-7xl mx-auto" id="estates">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div>
-                <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-4">Featured <span className="italic font-light">Estates</span></h2>
-                <p className="text-stone-500 tracking-wide text-sm md:text-base">A curated selection of our finest available properties.</p>
+                <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-4">Global <span className="italic font-light">Collection</span></h2>
+                <p className="text-stone-500 tracking-wide text-sm md:text-base">Explore our complete portfolio covering exclusive markets worldwide.</p>
               </div>
               <button className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase hover:text-gold-500 transition-colors group">
                 View All Properties
@@ -952,7 +1126,7 @@ export default function App() {
                         />
                       </button>
                     </div>
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
                         <h3 className="text-xl font-serif text-stone-900 mb-1">{property.name}</h3>
                         <p className="text-stone-500 text-sm flex items-center gap-1 mb-2">
@@ -962,6 +1136,12 @@ export default function App() {
                       </div>
                       <span className="text-sm font-semibold tracking-wide text-stone-900">{property.price}</span>
                     </div>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); setContactProperty(property); setContactOpen(true); }}
+                      className="w-full py-3 bg-stone-50 text-stone-600 border border-stone-200 text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-gold-500 hover:text-white hover:border-gold-500 transition-all"
+                    >
+                      Contact Agent
+                    </button>
                   </motion.div>
                 ))
               ) : (
