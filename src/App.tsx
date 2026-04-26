@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { Menu, X, ArrowRight, MapPin, ChevronRight, Heart, Plane, Key, Search, Shield, PenTool, LineChart, Filter, Users, Award, TrendingUp, Building2, ArrowUp, ChevronDown } from 'lucide-react';
+import { Menu, X, ArrowRight, MapPin, ChevronRight, Heart, Plane, Key, Search, Shield, PenTool, LineChart, Filter, Users, Award, TrendingUp, Building2, ArrowUp, ChevronDown, ChevronLeft } from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'about'>('home');
@@ -16,6 +16,7 @@ export default function App() {
   const [contactProperty, setContactProperty] = useState<any>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
   // Search and Filter State
@@ -23,6 +24,10 @@ export default function App() {
   const [priceFilter, setPriceFilter] = useState("all");
   const [bedFilter, setBedFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
+
+  // Newsletter State
+  const [subscribedPopUp, setSubscribedPopUp] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
 
   // Parallax for Hero
   const { scrollY } = useScroll();
@@ -350,6 +355,15 @@ export default function App() {
     }
   ];
 
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (emailInput.trim()) {
+      setSubscribedPopUp(true);
+      setEmailInput("");
+      setTimeout(() => setSubscribedPopUp(false), 3000);
+    }
+  };
+
   const toggleFavorite = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
     setFavorites(prev => {
@@ -445,6 +459,13 @@ export default function App() {
       </div>
     </div>
   );
+
+  const modalImages = selectedProperty ? (selectedProperty.images || [
+    selectedProperty.image,
+    "https://images.unsplash.com/photo-1628624747514-61cfa7cae844?q=80&w=2670&auto=format&fit=crop", // generic interior luxury
+    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2670&auto=format&fit=crop", // bedroom
+    "https://images.unsplash.com/photo-1600607688969-a5bfcd64bd28?q=80&w=2670&auto=format&fit=crop"  // kitchen
+  ]) : [];
 
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900 selection:bg-gold-500 selection:text-white">
@@ -609,7 +630,7 @@ export default function App() {
                       <div 
                         key={property.id} 
                         className="flex gap-4 group cursor-pointer"
-                        onClick={() => { setSelectedProperty(property); setFavoritesOpen(false); }}
+                        onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setFavoritesOpen(false); }}
                       >
                         <div className="w-24 h-32 flex-shrink-0 overflow-hidden border border-stone-200">
                           <img src={property.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" loading="lazy" />
@@ -728,7 +749,7 @@ export default function App() {
                   exit={{ opacity: 0 }}
                   className="fixed inset-0 z-[110] flex items-center justify-center px-4"
                 >
-                  <div className="absolute inset-0 bg-stone-900/95 backdrop-blur-md" onClick={() => setSelectedProperty(null)} />
+                  <div className="absolute inset-0 bg-stone-900/95 backdrop-blur-md" onClick={() => { setSelectedProperty(null); setCurrentImageIndex(0); }} />
                   <motion.div 
                     initial={{ scale: 0.9, opacity: 0, y: 20 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -736,19 +757,55 @@ export default function App() {
                     className="relative bg-white max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl"
                   >
                     <button 
-                      onClick={() => setSelectedProperty(null)}
+                      onClick={() => { setSelectedProperty(null); setCurrentImageIndex(0); }}
                       className="absolute top-6 right-6 z-20 p-2 hover:bg-stone-100 rounded-full transition-colors mix-blend-difference text-white"
                     >
                       <X size={24} />
                     </button>
                     
-                    <div className="md:w-1/2 h-64 md:h-auto overflow-hidden">
-                      <img 
-                        src={selectedProperty.image} 
-                        className="w-full h-full object-cover" 
-                        alt={selectedProperty.name} 
-                        referrerPolicy="no-referrer"
-                      />
+                    <div className="md:w-1/2 h-64 md:h-auto overflow-hidden relative group">
+                      <div className="flex w-full h-full transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
+                        {modalImages.map((img: string, i: number) => (
+                          <img 
+                            key={i}
+                            src={img} 
+                            className="w-full h-full object-cover flex-shrink-0" 
+                            alt={`${selectedProperty.name} view ${i + 1}`} 
+                            referrerPolicy="no-referrer"
+                          />
+                        ))}
+                      </div>
+
+                      {/* Image Navigation Controls */}
+                      {modalImages.length > 1 && (
+                        <>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === 0 ? modalImages.length - 1 : prev - 1); }}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-stone-900/50 hover:bg-stone-900 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm shadow-sm"
+                            aria-label="Previous image"
+                          >
+                            <ChevronLeft size={20} />
+                          </button>
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === modalImages.length - 1 ? 0 : prev + 1); }}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-stone-900/50 hover:bg-stone-900 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm shadow-sm"
+                            aria-label="Next image"
+                          >
+                            <ChevronRight size={20} />
+                          </button>
+                          
+                          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                            {modalImages.map((_: any, i: number) => (
+                              <button 
+                                key={i}
+                                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(i); }}
+                                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i === currentImageIndex ? 'bg-gold-500 scale-125' : 'bg-white/50 hover:bg-white/80'}`}
+                                aria-label={`Go to image ${i + 1}`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </div>
                     
                     <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto bg-white flex flex-col">
@@ -809,7 +866,7 @@ export default function App() {
 
                       <div className="mt-auto flex gap-4">
                         <button 
-                          onClick={() => { setContactOpen(true); setSelectedProperty(null); }}
+                          onClick={() => { setContactOpen(true); setSelectedProperty(null); setCurrentImageIndex(0); }}
                           className="flex-1 py-4 bg-stone-900 text-white text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-gold-500 transition-colors"
                         >
                           Request Private Tour
@@ -893,16 +950,48 @@ export default function App() {
           </section>
 
           {/* Intro Section */}
-          <section className="py-24 px-6 max-w-4xl mx-auto text-center" id="about">
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="text-2xl md:text-4xl font-serif leading-relaxed text-stone-800"
-            >
-              We are <span className="italic text-gold-500 font-medium">RELAY Properties</span>. An exclusive real estate consultancy connecting discerning individuals with the world's most exceptional properties.
-            </motion.p>
+          <section className="py-32 px-6 max-w-7xl mx-auto" id="about">
+            <div className="flex flex-col md:flex-row items-center gap-16 lg:gap-24">
+              <motion.div 
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="w-full md:w-1/2 relative"
+              >
+                <div className="aspect-[4/5] overflow-hidden border border-stone-200">
+                  <img 
+                    src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2574&auto=format&fit=crop" 
+                    alt="Real Estate Principal" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-stone-900/5 mix-blend-multiply" />
+                </div>
+                {/* Decorative element */}
+                <div className="absolute -bottom-8 -left-8 w-32 h-32 border border-gold-500/30 -z-10 hidden md:block" />
+              </motion.div>
+
+              <div className="w-full md:w-1/2">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <span className="text-gold-500 text-[10px] font-bold tracking-[0.4em] uppercase mb-6 block italic">The Advisory</span>
+                  <p className="text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-stone-900 mb-8">
+                    We are <span className="italic text-gold-500 font-medium">RELAY</span>. An exclusive consultancy connecting discerning individuals with extraordinary properties.
+                  </p>
+                  <div className="flex gap-6 items-start">
+                    <div className="w-12 h-[1px] bg-gold-500 mt-2.5 flex-shrink-0"></div>
+                    <p className="text-stone-500 text-sm md:text-base leading-relaxed">
+                      Beyond mere transactions, our team of seasoned professionals approaches each mandate with surgical precision. We leverage deep market intelligence and a global network to uncover opportunities that remain hidden from the public market.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           </section>
 
           {/* New Featured Properties Section */}
@@ -924,7 +1013,7 @@ export default function App() {
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="w-full lg:w-1/2"
                     >
-                      <div className="aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={() => setSelectedProperty(property)}>
+                      <div className="aspect-[4/3] overflow-hidden relative group cursor-pointer" onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); }}>
                         <img 
                           src={property.image} 
                           alt={property.name} 
@@ -963,7 +1052,7 @@ export default function App() {
 
                       <div className="flex items-center gap-6">
                         <button 
-                          onClick={() => setSelectedProperty(property)}
+                          onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); }}
                           className="flex items-center gap-3 text-xs font-bold tracking-[0.2em] uppercase transition-colors group hover:text-gold-500 w-fit"
                         >
                           <span className="border-b border-stone-900 group-hover:border-gold-500 pb-1 transition-colors">View Details</span>
@@ -1106,7 +1195,7 @@ export default function App() {
                     transition={{ duration: 0.6, delay: idx * 0.1 }}
                     layout
                     className="group cursor-pointer"
-                    onClick={() => setSelectedProperty(property)}
+                    onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); }}
                   >
                     <div className="relative overflow-hidden aspect-[4/5] object-cover mb-6 border border-stone-200">
                       <img 
@@ -1330,7 +1419,30 @@ export default function App() {
       )}
 
       {/* Footer */}
-      {/* Back to Top */}
+      {/* Newsletter Success Popup */}
+      <AnimatePresence>
+        {subscribedPopUp && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-10 left-1/2 z-[100] bg-white text-stone-900 pr-8 pl-4 py-4 shadow-2xl flex items-center gap-4 border border-stone-200"
+          >
+            <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-stone-200">
+              <img 
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" 
+                alt="Real Estate Agent" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <span className="block text-xs font-bold tracking-widest uppercase text-gold-500 mb-1">Subscribed successfully</span>
+              <span className="block text-sm font-medium text-stone-600">Our concierge team will be in touch.</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {showBackToTop && (
           <motion.button
@@ -1366,11 +1478,14 @@ export default function App() {
             <p className="text-stone-500 text-sm leading-relaxed mb-8">
               The premier destination for luxury real estate globally. We curate exceptional living spaces for extraordinary lives.
             </p>
-            <form className="flex border-b border-stone-300 pb-2">
+            <form onSubmit={handleSubscribe} className="flex border-b border-stone-300 pb-2">
               <input 
                 type="email" 
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
                 placeholder="Join our private mailing list" 
                 className="bg-transparent text-sm w-full outline-none placeholder:text-stone-400 font-medium"
+                required
               />
               <button type="submit" className="text-xs font-bold uppercase tracking-widest hover:text-gold-500">
                 Subscribe
