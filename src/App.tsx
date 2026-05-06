@@ -422,7 +422,7 @@ export default function App() {
             className="group"
           >
             <div className="aspect-[3/4] overflow-hidden mb-8 border border-stone-200">
-              <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" referrerPolicy="no-referrer" />
+              <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
             </div>
             <h3 className="text-2xl font-serif mb-1">{member.name}</h3>
             <p className="text-gold-500 text-xs font-bold tracking-widest uppercase mb-4">{member.role}</p>
@@ -633,7 +633,7 @@ export default function App() {
                         onClick={() => { setSelectedProperty(property); setCurrentImageIndex(0); setFavoritesOpen(false); }}
                       >
                         <div className="w-24 h-32 flex-shrink-0 overflow-hidden border border-stone-200">
-                          <img src={property.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" loading="lazy" />
+                          <img src={property.image} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
                         </div>
                         <div className="flex flex-col justify-center">
                           <h3 className="text-lg font-serif mb-1 group-hover:text-gold-500 transition-colors">{property.name}</h3>
@@ -772,6 +772,8 @@ export default function App() {
                             className="w-full h-full object-cover flex-shrink-0" 
                             alt={`${selectedProperty.name} view ${i + 1}`} 
                             referrerPolicy="no-referrer"
+                            loading="lazy"
+                            decoding="async"
                           />
                         ))}
                       </div>
@@ -906,6 +908,8 @@ export default function App() {
                 alt="Luxury Architecture"
                 className="w-full h-[120%] object-cover object-[65%_center] sm:object-center origin-top opacity-90"
                 referrerPolicy="no-referrer"
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
             
@@ -965,6 +969,8 @@ export default function App() {
                     alt="Real Estate Principal" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-stone-900/5 mix-blend-multiply" />
                 </div>
@@ -1019,6 +1025,8 @@ export default function App() {
                           alt={property.name} 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                           referrerPolicy="no-referrer"
+                          loading="lazy"
+                          decoding="async"
                         />
                         <div className="absolute inset-0 bg-stone-900/10 group-hover:bg-transparent transition-colors duration-500" />
                       </div>
@@ -1203,6 +1211,8 @@ export default function App() {
                         alt={property.name} 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <button 
                         onClick={(e) => toggleFavorite(e, property.id)}
@@ -1278,6 +1288,8 @@ export default function App() {
                     alt="Luxury living space"
                     className="absolute inset-0 w-full h-[130%] -top-[15%] object-cover opacity-80"
                     referrerPolicy="no-referrer"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
               </div>
@@ -1333,6 +1345,7 @@ export default function App() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         referrerPolicy="no-referrer"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <span className="text-gold-500 text-[10px] font-bold tracking-[0.3em] uppercase mb-3 block">{op.subtitle}</span>
@@ -1379,6 +1392,8 @@ export default function App() {
                         alt={member.name} 
                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <h4 className="text-2xl font-serif text-stone-900 mb-1">{member.name}</h4>
@@ -1433,6 +1448,8 @@ export default function App() {
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" 
                 alt="Real Estate Agent" 
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <div>
